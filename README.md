@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.com/sha1n/dummy-loader.svg?branch=master)](https://travis-ci.com/sha1n/dummy-loader)
+[![Build Status](https://travis-ci.com/sha1n/dummy-loader.svg?branch=master)](https://travis-ci.com/sha1n/dummy-loader) [![Go Report Card](https://goreportcard.com/badge/sha1n/dummy-loader)](https://goreportcard.com/report/sha1n/dummy-loader) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 # Dummy Loader
 Dummy loader is a very simple server written in Go that exposes an HTTP API for generating CPU and memory load. It was created for experimentation with resource management configuration in docker/kubernetes environments.
