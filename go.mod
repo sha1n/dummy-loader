@@ -3,7 +3,7 @@ module github.com/sha1n/dummy-loader
 go 1.17
 
 require (
-	github.com/gin-gonic/gin v1.7.0
+	github.com/gin-gonic/gin v1.7.7
 	github.com/sirupsen/logrus v1.0.6
 	github.com/stretchr/testify v1.4.0
 )
