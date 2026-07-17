@@ -23,11 +23,11 @@ func Test_Stop(t *testing.T) {
 	scope := newServerTestScope()
 	server := scope.newServerBuilder().Build()
 	server.StartAsync()
-	scope.awaitPort()
+	_ = scope.awaitPort()
 
-	server.StopNow(time.Second * 3)
+	_ = server.StopNow(time.Second * 3)
 
-	_, err := http.Get(scope.serverUrlWith("/"))
+	_, err := http.Get(scope.serverURLWith("/"))
 	assert.Error(t, err)
 	assert.True(t, strings.Contains(err.Error(), "connection refused"))
 }
@@ -38,9 +38,9 @@ func Test_Start(t *testing.T) {
 	defer server.StopAsync()
 
 	server.StartAsync()
-	scope.awaitPort()
+	_ = scope.awaitPort()
 
-	res, err := http.Get(scope.serverUrlWith("/"))
+	res, err := http.Get(scope.serverURLWith("/"))
 	assert.NoError(t, err)
 	assert.Equal(t, 404, res.StatusCode)
 }
@@ -55,9 +55,9 @@ func Test_ServerShouldReturnCode405ForUnmappedMethodsOfExistingResource(t *testi
 	defer server.StopAsync()
 
 	server.StartAsync()
-	scope.awaitPort()
+	_ = scope.awaitPort()
 
-	res, err := http.Get(scope.serverUrlWith("/post"))
+	res, err := http.Get(scope.serverURLWith("/post"))
 	assert.NoError(t, err)
 	assert.Equal(t, 405, res.StatusCode)
 }
@@ -72,9 +72,9 @@ func Test_GetHandlerShouldWork(t *testing.T) {
 	defer server.StopAsync()
 
 	server.StartAsync()
-	scope.awaitPort()
+	_ = scope.awaitPort()
 
-	res, err := http.Get(scope.serverUrlWith("/get"))
+	res, err := http.Get(scope.serverURLWith("/get"))
 	assert.NoError(t, err)
 	assert.Equal(t, 200, res.StatusCode)
 }
@@ -88,9 +88,9 @@ func Test_EchoHandlerShouldReturnInputMessage(t *testing.T) {
 	defer server.StopAsync()
 
 	server.StartAsync()
-	scope.awaitPort()
+	_ = scope.awaitPort()
 
-	res, err := http.Post(scope.serverUrlWith("/echo"), "application/json", utils.JsonStringReaderFor(inputMessage))
+	res, err := http.Post(scope.serverURLWith("/echo"), "application/json", utils.JSONStringReaderFor(inputMessage))
 	assert.NoError(t, err)
 	assert.Equal(t, 200, res.StatusCode)
 	assert.Equal(t, inputMessage, jsonMessageFrom(res))
@@ -104,9 +104,9 @@ func Test_EchoHandlerShouldFailIfContentTypeIsNotSupported(t *testing.T) {
 	defer server.StopAsync()
 
 	server.StartAsync()
-	scope.awaitPort()
+	_ = scope.awaitPort()
 
-	res, err := http.Post(scope.serverUrlWith("/echo"), "text/plain", strings.NewReader(utils.RandomString(10)))
+	res, err := http.Post(scope.serverURLWith("/echo"), "text/plain", strings.NewReader(utils.RandomString(10)))
 	assert.NoError(t, err)
 	assert.Equal(t, 400, res.StatusCode)
 }
@@ -126,7 +126,7 @@ func (s scope) newServerBuilder() ServerBuilder {
 	return NewServer(s.port)
 }
 
-func (s scope) serverUrlWith(path string) string {
+func (s scope) serverURLWith(path string) string {
 	return fmt.Sprintf("http://localhost:%d%s", s.port, path)
 }
 
@@ -165,7 +165,7 @@ func echoHandler() func(*gin.Context) {
 }
 
 func jsonMessageFrom(response *http.Response) (res message) {
-	json.NewDecoder(response.Body).Decode(&res)
+	_ = json.NewDecoder(response.Body).Decode(&res)
 
 	return res
 }

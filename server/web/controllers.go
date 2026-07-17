@@ -27,7 +27,7 @@ func HandleReadinessCheck(c *gin.Context) {
 	}
 }
 
-func HandleCpuLoadRequest(c *gin.Context) {
+func HandleCPULoadRequest(c *gin.Context) {
 	timeSec := c.Request.URL.Query().Get("time-sec")
 	coresStr := c.Request.URL.Query().Get("cores")
 	var cores = runtime.NumCPU()
@@ -44,8 +44,8 @@ func HandleCpuLoadRequest(c *gin.Context) {
 			c.Status(400)
 		} else {
 			c.Status(202)
-			loaders.StartCpuLoad(cores, i)
-			c.Writer.WriteString(fmt.Sprintf("CPU load started for %s seconds on %d cores", timeSec, cores))
+			loaders.StartCPULoad(cores, i)
+			_, _ = c.Writer.WriteString(fmt.Sprintf("CPU load started for %s seconds on %d cores", timeSec, cores))
 		}
 
 	} else {
@@ -63,7 +63,7 @@ func HandleMemLeakRequest(c *gin.Context) {
 		} else {
 			loaders.StartMemLeak(i)
 			c.Status(202)
-			c.Writer.WriteString(fmt.Sprintf("Memory footprint set to %sMB", amountMb))
+			_, _ = c.Writer.WriteString(fmt.Sprintf("Memory footprint set to %sMB", amountMb))
 		}
 	} else {
 		c.Redirect(307, "/docs")

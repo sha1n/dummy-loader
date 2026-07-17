@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -11,7 +11,7 @@ import (
 
 func init() {
 	gin.SetMode(gin.ReleaseMode)
-	gin.DefaultWriter = ioutil.Discard
+	gin.DefaultWriter = io.Discard
 }
 
 type Server interface {
@@ -24,7 +24,7 @@ type ServerBuilder interface {
 	Build() Server
 	WithGetHandler(path string, handler func(c *gin.Context)) ServerBuilder
 	WithPostHandler(path string, handler func(c *gin.Context)) ServerBuilder
-	WithHtmlTemplates(templates ...string) ServerBuilder
+	WithHTMLTemplates(templates ...string) ServerBuilder
 }
 
 type serverBuilder struct {
@@ -34,7 +34,7 @@ type serverBuilder struct {
 
 func (sb *serverBuilder) Build() Server {
 	httpServer := &http.Server{
-		Addr:    ":" + strconv.Itoa(int(sb.port)),
+		Addr:    ":" + strconv.Itoa(sb.port),
 		Handler: sb.engine,
 	}
 
@@ -56,7 +56,7 @@ func (sb *serverBuilder) WithPostHandler(path string, handler func(c *gin.Contex
 	return sb
 }
 
-func (sb *serverBuilder) WithHtmlTemplates(templates ...string) ServerBuilder {
+func (sb *serverBuilder) WithHTMLTemplates(templates ...string) ServerBuilder {
 	sb.engine.LoadHTMLFiles(templates...)
 	return sb
 }

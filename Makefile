@@ -43,7 +43,8 @@ format:
 
 lint:
 	$(call print_title,Lint...)
-	gofmt -d server
+	cd tools && go build -o ../.bin/golangci-lint github.com/golangci/golangci-lint/cmd/golangci-lint
+	./.bin/golangci-lint run ./...
 
 
 push-docker:

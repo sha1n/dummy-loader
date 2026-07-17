@@ -17,5 +17,11 @@ jobs:
       with:
         go-version-file: 'go.mod'
         
+    - name: Run lint
+      run: make lint
+      
+    - name: Run tests
+      run: make test
+      
     - name: Run build
-      run: make default
+      run: make build-bin

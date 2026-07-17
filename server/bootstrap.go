@@ -17,14 +17,14 @@ func init() {
 }
 
 func main() {
-	server := createHttpServer(8080)
+	server := createHTTPServer(8080)
 	server.StartAsync()
 
 	awaitShutdownSig()
 }
 
 func awaitShutdownSig() {
-	quitChannel := make(chan os.Signal)
+	quitChannel := make(chan os.Signal, 1)
 	signal.Notify(quitChannel, syscall.SIGINT, syscall.SIGTERM)
 
 	log.Println("Waiting for shutdown signal...")
@@ -32,15 +32,15 @@ func awaitShutdownSig() {
 	<-quitChannel
 }
 
-func createHttpServer(port int) http.Server {
+func createHTTPServer(port int) http.Server {
 	server := http.
 		NewServer(port).
 		WithGetHandler("/health", web.HandleHealthCheck).
 		WithGetHandler("/ready", web.HandleReadinessCheck).
 		WithGetHandler("/docs", docsHandler).
-		WithHtmlTemplates("server/web/help.tpl").
-		WithGetHandler("/api/cpu-load", web.HandleCpuLoadRequest).
-		WithPostHandler("/api/cpu-load", web.HandleCpuLoadRequest).
+		WithHTMLTemplates("server/web/help.tpl").
+		WithGetHandler("/api/cpu-load", web.HandleCPULoadRequest).
+		WithPostHandler("/api/cpu-load", web.HandleCPULoadRequest).
 		WithGetHandler("/api/mem-footprint", web.HandleMemLeakRequest).
 		WithPostHandler("/api/mem-footprint", web.HandleMemLeakRequest).
 		Build()
