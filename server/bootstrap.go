@@ -43,6 +43,8 @@ func createHTTPServer(port int) http.Server {
 		WithPostHandler("/api/cpu-load", web.HandleCPULoadRequest).
 		WithGetHandler("/api/mem-footprint", web.HandleMemLeakRequest).
 		WithPostHandler("/api/mem-footprint", web.HandleMemLeakRequest).
+		WithGetHandler("/api/status", web.HandleStatusRequest).
+		WithGetHandler("/metrics", web.HandleMetricsRequest).
 		Build()
 
 	stopServerAsync := func() {
@@ -66,6 +68,8 @@ func docsHandler(c *gin.Context) {
 		Urls: []string{
 			fmt.Sprintf("http://%s/api/cpu-load?time-sec=30[&cores=2]", host),
 			fmt.Sprintf("http://%s/api/mem-footprint?amount-mb=1000", host),
+			fmt.Sprintf("http://%s/api/status", host),
+			fmt.Sprintf("http://%s/metrics", host),
 		},
 	}
 	c.HTML(200, "help.tpl", items)
