@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"log"
@@ -77,7 +76,7 @@ func NewServer(port int) ServerBuilder {
 
 func handlerWrapperFor(path string, handler func(c *gin.Context)) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		log.Printf(fmt.Sprintf("Handling request at %s", path))
+		log.Printf("Handling request at %s", path)
 		// calling actual handler
 		handler(c)
 
