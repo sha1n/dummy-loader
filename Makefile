@@ -57,6 +57,3 @@ run-docker:
 
 
 release: prepare format lint test build push-docker
-
-setup:
-	git config core.hooksPath .git-hooks
