@@ -31,3 +31,4 @@ _testmain.go
 
 # output stuff
 terraform/scripts/tmp
+.bin/
